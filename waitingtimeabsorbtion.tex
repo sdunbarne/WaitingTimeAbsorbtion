@@ -173,7 +173,7 @@ states to transient states.
 Starting at one of the transient states \( i \) where
 \( a+1 \le i \le a+t \) such a process will remain in the transient states
 for some duration.  Ultimately, the process gets trapped in one of the
-absorbing states \( i = 1, \dots a \).  Before the Markov process
+absorbing states \( i = 1, \dots a \).  Before the Markov chain
 transitions to one of the absorbing states, the number of times it
 visits a transient state is a random variable.  Let \( Y_{ij} \)
 denote the number of visits the system makes to transient state
@@ -191,8 +191,9 @@ Define the \defn{absorption time}%
 \index{absorption time}
 \[
     w_i = \min \setof{n \ge 0}{X_n \le a \given X_0 = i}.
-\] Notice that \( w_i = \sum\limits_{k=a+1}^{a+t} Y_{ik} \),
-the total number of visits the process makes among the transient states.
+\] Notice that \( w_i = \sum{k=a+1}^{a+t} Y_{ik} \),
+the total number of visits the process makes among the transient
+states.
 The expected value of this random time \( \E{w_i} \), \( i = a+1, \dots,
 a+t \) is a first measure of the random variable \( w_i \). Also of
 interest is the probability distribution of the states into which
@@ -238,7 +239,7 @@ ransom variable is
     {m=0}^{\infty} \E{U_{ij}^{(m)}}.
 \]
 
-Now use mathematical induction to show
+Use mathematical induction to show
 \[
     P^{m} =
     \begin{pmatrix}
@@ -255,21 +256,22 @@ Now use mathematical induction to show
         I_a & 0 \\
         (I_t + T + T^2 + \cdots + T^{m-1})A & T^m
     \end{pmatrix}.
-\]  The
-elements \( p_{ij}^{(m)} \) of \( P^m \) are the \( m \)-step transition
+\]  (See the exercises.)  The
+elements \( (P^{m})_{ij} \) of \( P^m \) are the \( m \)-step transition
 probabilities between all states.  Since \( \E{U_{ij}^{(m)}} = p_{ij}^{%
 (m)} \), so
 \[
     \E{Y_{ij}} = \sum\limits_{m=0}^{\infty} \E{U_{ij}^{(m)}} = \sum\limits_
-    {m=0}^{\infty} p_{ij}^{(m)}.
+    {m=0}^{\infty} (P^{m})_{ij}}.
 \] When \( i \) and \( j \) are transient states, then we only need to
 consider the entries in the transient corner matrix \( T^m \), so
 \[
     \E{Y_{ij}} = \sum\limits_{m=0}^{\infty} (T^m)_{ij} = \left( \sum\limits_
     {m=0}^{\infty} T^m \right)_{ij}.
 \] The basic theory of finite absorbing Markov chains ensures that the
-Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \).
-Therefore \( \sum\limits_{m=0}^{\infty} T^m \) converges.  Furthermore,
+Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1
+\). (See the exercises.)
+Therefore \( \sum_{m=0}^{\infty} T^m \) converges.  Furthermore,
 it converges to the \defn{fundamental matrix} \( N = (I-T)^{-1} \).%
 \index{fundamental matrix}
 Thus \( \E{Y_{ij}} = N_{ij} \).
@@ -292,7 +294,7 @@ Thus \( \E{Y_{ij}} = N_{ij} \).
 
 \subsubsection*{Covariances of numbers of visits between states }
 
-Now we want to use the indicator Bernoulli random variables to derive \(
+Now use the indicator Bernoulli random variables to derive \(
 \Cov{ Y_{ij} }{ Y_{ik} } \) where \( i \), \( j \), \( k \) are transient
 states. Recall that
 \[
@@ -477,7 +479,7 @@ from \( N \) by the matrix product \( B = NA = (I-T)^{-1}A \).
 % precisely, we have the following theorem.
 
 \begin{theorem}
-  Let \( b_{ij} \) be the probability of the Markov process starting
+  Let \( b_{ij} \) be the probability of the Markov chain starting
   in transient state \( i \) and ending in absorbing state $j$, then
   \[
         B = ( b_{ij} ) = NA.
@@ -1310,14 +1312,43 @@ V[player_count-5, bills-2] <- sd(all_results)
 
 \visual{Problems to Work}{../../../../CommonInformation/Lessons/solveproblems.png}
 \section*{Problems to Work for Understanding}
-\begin{enumerate}
-    \item
-    \item
-    \item
-    \item
-\end{enumerate}
 
-% \link{ _soln.xml}{Solutions to Problems}
+\renewcommand{\theexerciseseries}{}
+\renewcommand{\theexercise}{\arabic{exercise}}
+
+\begin{exercise}
+  Use mathematical induction to show
+\[
+    P^{m} =
+    \begin{pmatrix}
+        I_a & 0 \\
+        A & T
+    \end{pmatrix}
+    ^{m-1}
+    \begin{pmatrix}
+        I_a & 0 \\
+        A & T
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        I_a & 0 \\
+        (I_t + T + T^2 + \cdots + T^{m-1})A & T^m
+    \end{pmatrix}.
+\]
+\end{exercise}
+
+\begin{solution}
+  
+\end{solution}
+
+\begin{exercise}
+Show
+that the
+Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \).
+\end{exercise}
+\begin{solution}
+  
+\end{solution}
 
 \hr
 
