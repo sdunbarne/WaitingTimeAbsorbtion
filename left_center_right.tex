@@ -1,0 +1,117 @@
+\begin{example}
+  The following example is from the December 22, 2017 Riddler at
+  \link{https://fivethirtyeight.com/features/hark-two-holiday-puzzles/}{Fivethirtyeight.com}.
+  It concerns a game of chance called Left, Right, Center. In this
+  game, everyone sits in a circle and starts with some number of $\$1$
+  bills. You take turns, in order around the circle, rolling three
+  dice. For each die, if it comes up $1$ or $2$, you give a dollar to
+  the person on your left. If it comes up $3$ or $4$, you give a
+  dollar to the person on your right. And if it comes up $5$ or $6$,
+  you put a dollar in the center.  Assume the following: First, if a
+  player has no dollars, then her turn is skipped. Second, if a player
+  has one or two dollars, then the player rolls only one or two dice,
+  respectively. The game ends as soon as only a single person has any
+  money left. How long is the game expected to last for six players
+  each starting with three $\$1$ bills? For $X$ players each starting
+  with $Y$ $\$1$ bills?
+
+  Consider the allocation of the total of $\$18$ among the $6$ players
+  and the center, that is $7$ places, as the states of a Markov
+  chain.  Using the ``stars and bars'' argument, choosing $7-1 = 6$ bars
+  from $18 + 6$ objects the number of states is
+  $\binom{18+6}{6} = 134{,}596$.  This also counts all the money in the
+  center as one state which would not strictly be a state of the
+  game.  So there are $134{,}595$ actual game states.  This is the same as the number of
+  states dividing any number of dollars from $1$ to $18$ among $6$
+  players, ignoring the money in the center which would be
+  $\sum\limits_{j=6}^{23}\binom{j}{5} = 134{,}595$.  This is essentially the
+  conclusion of the hockey-stick identity for binomial coefficients.
+
+  The game ends when exactly $1$ of the $6$ players has any amount of
+  money from $\$1$ to $\$18$.  That is, there are $6 \cdot (1 + \cdots
+  + 18) = 6 \cdot 18 \cdot 19/2 = 1026$ terminal states which can be
+  considered as the absorbing states of the game.
+
+  The shortest possible game would be for each player in turn to throw
+  all $5$'s and $6$'s, thereby placing all the player's starting money
+  in the center.  This shortest game would be $6$ turns with
+  probability $(1/27)^6$.  Consider the
+  total number of dollars in the circle at each turn.  The expected
+  loss of dollars from the circle to the center at each turn is $1$.
+  That means it takes should take on the order of $17$ turns to end
+  the game.  More precisely, consider the lumped system where each
+  state is the number of dollars in the circle, from $\$18$ to $\$1$.
+  Let $D_j$ be the duration of the game from $j$ dollars with
+  $j = 1, \dots, 18$.  Then a first-step analysis gives the system of
+  equations $D_j = (8/27)D_j + (12/27)D_{j-1} + (6/27)D_{j-2} +
+  (1/27)D_{j-3} + 1$, with $D_j = 0$ for $j = 1, 0, -1$.  The solution
+  of this system with Octave gives $D_{18} = 17.3333$ which is
+  consistent with the previous crude estimate.
+
+  The number of states and absorbing states are too large to be
+  effectively handled by matrix methods.  Although the conceptual
+  set-up of the game is clearly the waiting time until absorbtion in a
+  Markov chain, simulation seems to be the best way to answer the
+  question.  Results of simulating games with $6$ to $9$ players each
+  starting with $3$ to $6$ dollars are in the tables.  The Riddler
+  says that the game with $X$ players each starting with $Y$ dollars
+  will last $2(X-2)Y$ turns but does not give a proof.
+  The simulations give means which are consistent with this value.
+  \begin{table}
+    \centering
+    \begin{tabular}{l | llll}
+      &  6       & 7       & 8       & 9      \\
+     3 &  25.7096 & 32.3160 & 38.9660 & 45.3878 \\
+     4 &  31.7890 & 39.7598 & 47.3006 & 55.3804 \\
+     5 &  38.3244 & 47.4416 & 56.3536 & 65.4438 \\
+     6 &  44.8394 & 54.9732 & 65.5688 & 75.3548
+    \end{tabular}
+    \caption{Mean number of turns in $5000$ simulations of the game
+      with $X$ players each with $Y$ dollars.}
+    \label{tab:waitingtimeabsorbtion:lcrmean}
+  \end{table}
+
+  \begin{table}
+    \centering
+    \begin{tabular}{llll}
+       6.546804 &  7.009249 &  7.564145 &  7.898221 \\
+       7.751729 &  8.176348 &  8.594918 &  9.099816 \\
+       8.989401 &  9.367077 &  9.878952 & 10.387840 \\
+      10.161804 & 10.468601 & 11.080443 & 11.654668
+\end{tabular}
+    \caption{Variance of number of turns in $5000$ simulations of the game
+      with $X$ players each with $Y$ dollars.}
+    \label{tab:waitingtimeabsorbtion:lcrmean}
+  \end{table}
+
+
+% V = [(8/27)*ones(17,1), (12/27)*ones(17,1), (6/27)*ones(17,1),
+% (1/27)*ones(17,1)]
+% A = spdiags(V, [0,1,2,3], eye(17))
+% (eye(17) - A)\ones(17,1)
+
+% ans =
+
+%    17.3333
+%    16.3333
+%    15.3333
+%    14.3333
+%    13.3333
+%    12.3333
+%    11.3333
+%    10.3333
+%     9.3333
+%     8.3333
+%     7.3333
+%     6.3334
+%     5.3331
+%     4.3338
+%     3.3342
+%     2.3186
+%     1.4211
+
+\end{example}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
