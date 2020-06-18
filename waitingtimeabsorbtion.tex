@@ -300,7 +300,7 @@ states. Recall that
 \[
     \Cov{ Y_{ij} }{ Y_{ik} } = \E{Y_{ij} \cdot Y_{ik}} - \E{Y_{ij}}
     \cdot \E{Y_{ik}}
-\] and since we already know \( \E{Y_{ij}} \) and \( \E{Y_{ik}} \), all
+\] and since \( \E{Y_{ij}} \) and \( \E{Y_{ik}} \) are known, all
 that is necessary is \( \E{Y_{ij} \cdot Y_{ik}} \).  Start with
 \[
     Y_{ij} Y_{ik} = \left( \sum\limits_{x=0}^{\infty} U_{ij}^{(x)}
@@ -312,45 +312,47 @@ that is necessary is \( \E{Y_{ij} \cdot Y_{ik}} \).  Start with
     \E{Y_{ij} Y_{ik}} = \E{\sum\limits_{x=0}^{\infty} \sum\limits_{y=0}^
     {\infty} U_{ij}^{(x)} U_{ik}^{(y)}} = \sum\limits_{x=0}^{\infty}
     \sum\limits_{y=0}^{\infty} \E{U_{ij}^{(x)} U_{ik}^{(y)}}.
-\] Rearrange the double sum to
+  \]
+  Rearrange the double sum into a
+   first term summing over the lattice points above the line \(
+y=x \), a second term summing over the lattice points along the line \(
+y=x \), and a third term summing over lattice points below the line \( y=x \).
 \[
     \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty} \E{U_{ij}^{(x)}
     U_{ik}^{(y)}} + \sum\limits_{x=0}^{\infty} \E{U_{ij}^{(x)} U_{ik}^{(x)}}
     + \sum\limits_{y=0}^{\infty} \sum\limits_{x=y+1}^{\infty} \E{U_{ik}^
     {(y)} U_{ij}^{(x)}}.
-\] Note that the first term sums over the lattice points above the line \(
-y=x \), the second term sums over the lattice points along the line \(
-y=x \), the third term sums over lattice points below the line \( y=x \).
-The first and third terms are symmetric, so we only evaluate the first
+\] Note that the
+The first and third terms are symmetric, so only evaluate the first
 term.
 
 The expression \( \E{U_{ij}^{(x)} U_{ij}^{(y)}} \) is the probability
 that the system is in transient state \( j \) after exactly \( x \)
-steps from the start in state \( i \) and the system is in transient
+steps from the start in state \( i \) \emph{and} the system is in transient
 state \( k \) after exactly \( y \) steps from the start in state \( i
 \).  Recall that \( x < y \).
 Using the Markov chain property, this is \( \E{U_{ij}^{(x)} U_{ik}^{(y)}}
 = p_{ij}^{(x)} p_{jk}^{(y-x)} \).  Therefore, the first term is
-\begin{align*}
+\begin{multline*}
     \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty} \E{U_{ij}^{(x)}
-    U_{ik}^{(y)}} &= \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty}
-    p_{ij}^{(x)} p_{jk}^{(y-x)} \\
-    & = \sum\limits_{x=0}^{\infty} \sum\limits_{y-x=1}^{\infty} p_{ij}^{%
-    (x)} p_{jk}^{(y-x)} \\
-    & = \sum\limits_{x=0}^{\infty} \sum\limits_{z=1}^{\infty} p_{ij}^{(x)}
-    p_{jk}^{(z)} \\
-    & = \left( \sum\limits_{x=0}^{\infty} p_{ij}^{(x)} \right) \left(
-    \sum\limits_{z=1}^{\infty} p_{jk}^{(z)} \right) \\
-    & = \left( \sum\limits_{x=0}^{\infty} p_{ij}^{(x)} \right) \left(
+    U_{ik}^{(y)}} = \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty}
+    p_{ij}^{(x)} p_{jk}^{(y-x)}
+    = \sum\limits_{x=0}^{\infty} \sum\limits_{y-x=1}^{\infty} p_{ij}^{%
+    (x)} p_{jk}^{(y-x)}
+    = \sum\limits_{x=0}^{\infty} \sum\limits_{z=1}^{\infty} p_{ij}^{(x)}
+    p_{jk}^{(z)}
+    = \left( \sum\limits_{x=0}^{\infty} p_{ij}^{(x)} \right) \left(
+    \sum\limits_{z=1}^{\infty} p_{jk}^{(z)} \right)
+     = \left( \sum\limits_{x=0}^{\infty} p_{ij}^{(x)} \right) \left(
     \sum\limits_{z=0}^{\infty} p_{jk}^{(z)} - p_{jk}^{(0)}\right) \\
-    & = \left( \sum\limits_{x=0}^{\infty} (T^x){}_{ij} \right) \left(
-    \sum\limits_{z=0}^{\infty} (T^z){}_{jk} - \delta_{jk}\right) \\
-    & = \left( \sum\limits_{x=0}^{\infty} T^x \right)_{ij} \left(
+     = \left( \sum\limits_{x=0}^{\infty} (T^x){}_{ij} \right) \left(
+    \sum\limits_{z=0}^{\infty} (T^z){}_{jk} - \delta_{jk}\right)
+     = \left( \sum\limits_{x=0}^{\infty} T^x \right)_{ij} \left(
     \sum\limits_{z=0}^{\infty} T^z\right)_{jk} - \delta_{jk} \\
-    & = \left( (I_t-T)^{-1} \right)_{ij} \left( (I_t-T)^{-1} \right){}_{jk}
+     = \left( (I_t-T)^{-1} \right)_{ij} \left( (I_t-T)^{-1} \right){}_{jk}
     - \delta_{jk} \\
-    &= N_{ij}(N_{jk}-\delta_{jk}).
-\end{align*}
+    = N_{ij}(N_{jk}-\delta_{jk}).
+\end{multline*}
 The third term is the first term with \( j \) and \( k \) interchanged,
 so
 \[
@@ -379,7 +381,8 @@ is only possible if \( j=k \) hence \( \E{U_{ij}^{(x)} U_{ik}^{(x)}} = p_{ij}^{(
     {ij}N_{jk} + N_{ik}N_{kj} - N_{ij}N_{ik} - N_{ik}\delta_{kj}.
      \label{eq:newwaitingtime:cov}
 \end{equation}
-
+Note that the result is symmetric under the interchange of \( j \) and
+\( k \) as it should be.
 
 In particular, letting \( j=k \) we get the variance of the number of
 visits to state \( j \) starting from \( i \):
@@ -388,7 +391,7 @@ visits to state \( j \) starting from \( i \):
 \]  Note that this is the variance of the number of visits to transient
 state \( j \) when starting from state \( i \), \emph{not} the variance of
 the waiting time.
-Following the notation of Kemeny and Snell \cite[page 49]{kemeny60}, define \(
+Define \(
 \operatorname{diag}(N) \) to be the diagonal matrix setting all
 off-diagonal elements of \( N \) to \( 0 \), and define \( N_{\text{sq}}
 \) to be the matrix resulting from squaring each entry, then
@@ -398,7 +401,7 @@ off-diagonal elements of \( N \) to \( 0 \), and define \( N_{\text{sq}}
     (N) - I) - N_{\text{sq}}.
 \]
 
-For covariances, for a fixed \( i \), we want the \( t \times t \)
+The covariance, for a fixed \( i \), is the \( t \times t \)
 matrix of entries \( \Cov{Y_{ij}}{ Y_{ik}} \).  From the formula in terms
 of the fundamental matrix \( N \), the covariance is the product of row
 vectors of \( N \) with \( N \).  Letting \( N_{(i)} \) denote the \( 1
@@ -406,7 +409,7 @@ vectors of \( N \) with \( N \).  Letting \( N_{(i)} \) denote the \( 1
     N_{(i)} \) to be the diagonal matrix with this vector along the
     diagonal this becomes
 \[
-    \Var{Y_{(i)}} =
+    \Cov{Y_{(i)}} =
     \operatorname{diag}
     {N_{(i)}} N + N^T
     \operatorname{diag}
@@ -1350,6 +1353,16 @@ Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \).
   
 \end{solution}
 
+\begin{exercise}
+  Under the assumption that the
+Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \)
+prove that
+\[
+  \sum\limits_{x=0}^{\infty} (T^x){}_{ij} = (I - T)^{-1}.
+\end{exercise}
+\begin{solution}
+  
+\end{solution}
 \hr
 
 \visual{Books}{../../../../CommonInformation/Lessons/books.png}
