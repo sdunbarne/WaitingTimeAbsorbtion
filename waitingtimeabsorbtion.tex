@@ -402,29 +402,27 @@ off-diagonal elements of \( N \) to \( 0 \), and define \( N_{\text{sq}}
 \]
 
 The covariance, for a fixed \( i \), is the \( t \times t \)
-matrix of entries \( \Cov{Y_{ij}}{ Y_{ik}} \).  From the formula in terms
-of the fundamental matrix \( N \), the covariance is the product of row
-vectors of \( N \) with \( N \).  Letting \( N_{(i)} \) denote the \( 1
-\times t \) row-vector from row \( i \) and setting \( \operatorname{diag}
-    N_{(i)} \) to be the diagonal matrix with this vector along the
+matrix of entries \( \Cov{Y_{ij}}{ Y_{ik}} \).    Letting \( N_{(i,\cdot)} \) denote the \( 1
+\times t \) row-vector from row \( i \) and setting \( (\operatorname{diag}
+    N_{(i,\cdot)}) \) to be the diagonal matrix with this vector along the
     diagonal this becomes
 \[
     \Cov{Y_{(i)}} =
-    \operatorname{diag}
-    {N_{(i)}} N + N^T
-    \operatorname{diag}
-    {N_{(i)}} - N_{(i)} N_{(i)}^T -
-    \operatorname{diag}
-    N_{(i)}.
-\]  Note the outer product \( N_{(i)} N_{(i)}^T \).
-The variance of the waiting time until absorption from state \( i \)
+    (\operatorname{diag}
+    {N_{(i,\cdot)}}) N + N^T
+    (\operatorname{diag}
+    {N_{(i,\cdot)}}) - N_{(i,\cdot)} N_{(i,\cdot)}^T -
+    (\operatorname{diag}
+    N_{(i,\cdot)}.
+\]  Note the outer product \( N_{(i,\cdot)} N_{(i,\cdot)}^T \).
+The variance of the waiting time until absorption into any state from state \( i \)
 is then the sum of all \( t^2 \) entries in \( \Var{Y_{(i)}} \).
 
 \subsection*{First-step analysis}
 
 First-step analysis%
 \index{first-step analysis}
-tells us that the absorption time from state \( i \) is the first step
+says the absorption time from state \( i \) is the first step
 to another transient state plus a weighted average, according to the
 transition probabilities over the transient states, of the absorption
 times from the other transient states.  In symbols, first-step analysis
@@ -462,8 +460,8 @@ Expressing the first-step analysis compactly in vector-matrix form as
     \mathbf{w} = \mathbf{1} + T \mathbf{w}
 \] or
 \[
-    (I - T) \mathbf{w} = \mathbf{1}
-\] then \( \mathbf{w} = (I-T)^{-1} \mathbf{1} \).  The matrix \( N = (I-T)^
+    (I - T) \mathbf{w} = \mathbf{1}.
+\] Then \( \mathbf{w} = (I-T)^{-1} \mathbf{1} \).  The matrix \( N = (I-T)^
 {-1} \) is the \defn{fundamental matrix}%
 \index{fundamental matrix}
 for the absorbing Markov chain.  The entries \( N_{ij} \) of this matrix
@@ -511,38 +509,49 @@ the waiting time using first-step analysis.
      \Var{\mathbf{w}} = (2N - I)N\mathbf{1} -
      (N\mathbf{1})_{\text{sq}}
 \]
-where \( (N\mathbf{w})_{\text{sq}} \) is the element-wise squared vector.
+where \( (N\mathbf{1})_{\text{sq}} \) is the element-wise squared vector.
 \end{theorem}
 
 \begin{proof}
+  \begin{enumerate}
+  \item 
   Recall that \( \E{\mathbf{w}} = N \mathbf{1} \).
-  Then use first-step analysis to evaluate \( \E{\mathbf{w}_{sq}} \),
+  Then use first-step analysis to evaluate \( \E{\mathbf{w}_{sq}} \).
+\item 
   From its starting state \( i \) it can go to any state \( k \) with
   probability $p_{ik}$.  If the new state is absorbing, then it can
   never reach another state, and the contribution is \( 1 \) step.  If
   the new state is transient count the weighted average of the squares
   of the waiting times plus \(1 \).
+\item 
 \begin{align*}
      \E{\mathbf{w}_{sq}} &=
      \sum\limits_{k=1}^{a} p_{ik} \mathbf{1} +
-     \sum\limits_{k=a+1}^{a+t} p_{ik} (\E{ (\mathbf{w}+1)_{\text{sq}} })_k
-     \sum\limits_{k=a+1}^{a+t} p_{ik} (\E{ \mathbf{w}}_{\text{sq}})_k + 2
-       (\E{ \mathbf{w}})_k + 1 \\
-     &= T \E{\mathbf{w}_{sq}} + 2 T\E{\mathbf{w}} + \mathbf{1}.
+                         \sum\limits_{k=a+1}^{a+t} p_{ik}
+                         (\E{(\mathbf{w}+\mathbf{1})_{\text{sq}} })_k \\
+                         &= \sum\limits_{k=1}^{a} p_{ik} \mathbf{1} +
+                           \sum\limits_{k=a+1}^{a+t} p_{ik}
+                           \left( (\E{ \mathbf{w}}_{\text{sq}})_k + 2
+       (\E{ \mathbf{w}})_k + \mathbf{1} \right) \\
+     &= T \E{\mathbf{w}_{\text{sq}}} + 2 T\E{\mathbf{w}} + \mathbf{1}.
 \end{align*}
-   Rearranging
+\item 
+   Rearrange using \( N = (I_t - T)^{-1} \) and \( NT =
+   (I_t - T)^{-1} T = N - I \) (See the exercises.) 
 \begin{align*}
-     \E{\mathbf{w}_{sq}} &= (I_t - T)^{-1} (2 T\E{\mathbf{w}_{sq}} +
+     \E{\mathbf{w}_{sq}} &= (I_t - T)^{-1} (2 T\E{\mathbf{w}} +
                            \mathbf{1}) \\
                         &= 2NT \E{\mathbf{w}} + N \mathbf{1} \\
                         &= 2(N-I) \E{\mathbf{w}} + \E{\mathbf{w}} \\
                         &= (2N-I) \E{\mathbf{w}}.
 \end{align*}
+\item 
 Thus
 \[
   \Var{\mathbf{w}} = (2N - I)N\mathbf{1} -
      (N\mathbf{1})_{\text{sq}}.
 \]
+  \end{enumerate}
 \end{proof}
 
 \begin{remark}
@@ -1352,7 +1361,13 @@ Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \).
 \begin{solution}
   
 \end{solution}
-
+\begin{exercise}
+   Show that \( NT =
+   (I_t - T)^{-1} T = N - I \)
+ \end{exercise}
+ \begin{solution}
+   
+ \end{solution}
 \begin{exercise}
   Under the assumption that the
 Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \)
