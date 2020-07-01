@@ -566,7 +566,7 @@ Thus
     \index{random walk}
     of a particle which moves along a straight line in unit steps.  Each
     step is \( 1 \) unit to the right with probability \( p \) and to
-    the left with probability \( q \).  It moves until it reaches one of
+    the left with probability \( q = 1-p \).  It moves until it reaches one of
     two extreme points which are \defn{absorbing
       boundaries}. \index{absorption probability matrix}   Assume that if
     the process reaches the boundary points, it remains there from that
@@ -669,7 +669,8 @@ Thus
             0 & 0 & 0 & 0 & 0 & q & 0  \\
         \end{pmatrix}.
     \] A computer algebra system such as Maxima for example can compute
-    the fundamental matrix but the general form in terms of \( p \)
+    the fundamental matrix \( N(p) = (I-T)^{-1}
+    but the general form in terms of \( p \)
     and \( q \) is long, messy and unhelpful.
     Two representative numerical examples suffice to show
     the possibilities.
@@ -749,137 +750,53 @@ Thus
     variances, consider only the central state, originally labeled as \(
     0 \) and after reordering is the sixth state in the middle of the
     transient states.
-    \[
+    \[\begin{pmatrix}
         \Cov{Y_{0j}}{Y_{0k}} =
-        \begin{pmatrix}
-        462/1445 & 81/85 & 2661/1445 & 1017/289 & 882/289 &
-          3204/1445 & 1368/1445\\ 
-        621/1445 & 2232/1445 & 927/289 & 1539/289 & 6678/1445 & 972/289 &
-        2088/1445\\ 
-        429/1445 & 369/289 & 5124/1445 & 1827/289 & 7938/1445 & 5796/1445 &
-        504/289\\
-        9/289 & 81/289 & 441/289 & 1260/289 & 1764/289 & 1296/289 & 576/289\\ 
-        -63/289 & -819/1445 & -1323/1445 & -63/289 & 5838/1445 & 6948/1445 &
-        3144/1445\\ 
-        -423/1445 & -243/289 & -2583/1445 & -891/289 & -18/85 & 4068/1445 &
-        648/289\\ 
-        -333/1445 & -981/1445 & -441/289 & -873/289 & -2994/1445 & -108/289 &
-        1176/1445
-        \end{pmatrix}
-    \] The variance is \( \mathbf{1}^{T} V \mathbf{1} = 21708/289
-    \approx 75.11418 \), the standard deviation is \( 8.66684 \), less
+        \frac{462}{1445} & \frac{162}{289} & \frac{708}{1445} & \frac{72}{289} & 0 & -\frac{144}{1445} & -\frac{144}{1445}\\
+\frac{162}{289} & \frac{2232}{1445} & \frac{2682}{1445} & \frac{324}{289} & \frac{504}{1445} & 0 & -\frac{144}{1445}\\
+\frac{708}{1445} & \frac{2682}{1445} & \frac{5124}{1445} & \frac{882}{289} & \frac{1764}{1445} & \frac{504}{1445} & 0\\
+\frac{72}{289} & \frac{324}{289} & \frac{882}{289} & \frac{1260}{289} & \frac{882}{289} & \frac{324}{289} & \frac{72}{289}\\
+0 & \frac{504}{1445} & \frac{1764}{1445} & \frac{882}{289} & \frac{5838}{1445} & \frac{720}{289} & \frac{912}{1445}\\
+-\frac{144}{1445} & 0 & \frac{504}{1445} & \frac{324}{289} & \frac{720}{289} & \frac{4068}{1445} & \frac{1728}{1445}\\
+-\frac{144}{1445} & -\frac{144}{1445} & 0 & \frac{72}{289} & \frac{912}{1445} & \frac{1728}{1445} & \frac{1176}{1445}\end{pmatrix}\]
+    % \[
+    %     \Cov{Y_{0j}}{Y_{0k}} =
+    %     \begin{pmatrix}
+    %     462/1445 & 81/85 & 2661/1445 & 1017/289 & 882/289 &
+    %       3204/1445 & 1368/1445\\ 
+    %     621/1445 & 2232/1445 & 927/289 & 1539/289 & 6678/1445 & 972/289 &
+    %     2088/1445\\ 
+    %     429/1445 & 369/289 & 5124/1445 & 1827/289 & 7938/1445 & 5796/1445 &
+    %     504/289\\
+    %     9/289 & 81/289 & 441/289 & 1260/289 & 1764/289 & 1296/289 & 576/289\\ 
+    %     -63/289 & -819/1445 & -1323/1445 & -63/289 & 5838/1445 & 6948/1445 &
+    %     3144/1445\\ 
+    %     -423/1445 & -243/289 & -2583/1445 & -891/289 & -18/85 & 4068/1445 &
+    %     648/289\\ 
+    %     -333/1445 & -981/1445 & -441/289 & -873/289 & -2994/1445 & -108/289 &
+    %     1176/1445
+    %     \end{pmatrix}
+    %   \]
+    The variance is \( \mathbf{1}^{T} V \mathbf{1} = 15264/289
+    \approx 52.81661 \), the standard deviation is \( 7.26750 \), less
     than the symmetric case where \( p =1/2 = q \), as expected.
 
     The probabilities of absorption are
     \[
         N(2/3) A =
         \begin{pmatrix}
-            127/255 & 128/255\\
-            21/85 & 64/85\\
-            31/255 & 224/255\\
-            1/17 & 16/17\\
-            7/255 & 248/255\\
-            1/85 & 84/85\\
-            1/255 & 254/255
+            7/8 & 1/8\\
+            3/4 & 1/4\\
+            5/8 & 3/8\\
+            1/2 & 1/2\\
+            3/8 & 5/8\\
+            1/4 & 3/4\\
+            1/8 & 7/8
         \end{pmatrix}.
     \] The absorption probabilities are strongly biased to the right, as
     expected.
 \end{example}
 
-\begin{example}
-    A law firm employs three types of lawyers:  junior lawyers, senior
-    lawyers, and partners.  During a given year, there is probability \(
-    0.15 \) of promoting a junior lawyer to senior lawyer and
-    probability \( 0.5 \) that the junior lawyer will leave the firm.
-    There is probability \( 0.20 \) of promoting the senior lawyer to
-    partner and probability \( 0.10 \) that the senior lawyer will leave
-    the firm.  Finally, there is probability \( 0.05 \) that a partner
-    will leave the firm, see
-    Table~\ref{tab:newwaitingtimeabsorption:lawyers}.  
-    The firm never demotes a lawyer or a partner.
-    What is the average number of years that a newly hired junior lawyer
-    stays with the firm?
-
-    \begin{table}[htbp]
-        \caption[]{The transition probabilities }
-        \vspace{4mm}
-        \begin{tabular}[tb]
-            {r|cccc} & leave & junior & senior & \\
-            & firm & lawyer & lawyer & partner \\
-            \hline
-            leave firm & 1 & 0 & 0 & 0 \\
-            junior lawyer & 0.05 & 0.80 & 0.15 & 0 \\
-            senior lawyer & 0.10 & 0 & 0.70 & 0.20 \\
-            partner & 0.05 & 0 & 0 & 0.95
-        \end{tabular}
-        \label{tab:newwaitingtimeabsorption:lawyers}
-    \end{table}
-
-This leads to the single-step transition matrix \( P \) partitioned into
-one absorbing state for ``leave firm'' and three transient
-states: junior lawyer, senior lawyer, partner
-\[
-    P =
-    \begin{pmatrix}
-        1    & 0    & 0    & 0    \\
-        0.05 & 0.80 & 0.15 & 0    \\
-        0.10 & 0    & 0.70 & 0.20 \\
-        0.05 & 0    & 0    & 0.95
-    \end{pmatrix}.
-\] The transient transition matrix is
-\[
-    T = 
-    \begin{pmatrix}
-         0.80 & 0.15 & 0 \\
-               0 & 0.70 & 0.20 \\
-               0 &    0 & 0.95
-    \end{pmatrix}.
-\] The corresponding fundamental matrix is
-\[
-    N= (I_3 - T)^{-1} =
-    \begin{pmatrix}
-        5 & 5/2 & 10 \\
-        0 & 10/3 & 40/3 \\
-        0 & 0 & 20
-    \end{pmatrix}.
-\] The waiting times to absorption are then
-\[
-    (I-T)^{-1} \mathbf{1} = (35/2, 50/3, 20)^{T}.
-\]
-
-Now compute the covariances for the first transient state, junior
-lawyer.  Using
-\[
-    \operatorname{diag}
-    {N_{(1)}} N + N^T
-    \operatorname{diag}
-    {N_{(1)}} - N_{(1)}^T N_{(1)} -
-    \operatorname{diag}
-    N_{(1)}
-\] we get
-\[
-    \Cov{Y_{1j}}{Y_{1k}} =
-    \begin{pmatrix}
-        20 & 0 & 0 \\
-        0 & 95/12 & 25/3 \\
-        0 & 25/3 & 290
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-        20 & 0 & 0 \\
-        0 & 7.91667 & 8.33333 \\
-        0 & 8.33333 & 290
-    \end{pmatrix}.
-\]
-
-Since \( w_i = \sum\limits_{j=a+1}^{t} Y_{ij} \), using that \( \Var{w_i}
-= \sum\limits_{j=a+1}^t \sum\limits_{k=a+1}^t \Cov{Y_{1j}}{Y_{1k}} \),
-the variance is the sum of the entries in the covariance matrix. Hence \(
-\Var{w_1} = 334.58 \) (in units of \( \text{year}^2 \)).  The standard
-deviation is \( 18.29 \) years.  As a point of special interest, note that the
-standard deviation is larger than the mean so that knowing the mean is
-not sufficient to understand how long a junior lawyer will be with the firm.
-\end{example}
 
 \begin{example}
 
@@ -893,6 +810,9 @@ not sufficient to understand how long a junior lawyer will be with the firm.
     Let the states be the number of candles remaining lit.  Order the
     \( N= 31 \) states as \( 0, 1, 2, 3, \dots, 29, 30 \).  Then the
     state \( 0 \) is absorbing and all other states are transient.
+    Interpret ``blow out a random number of
+    candles between one and the number that remain'' as uniform
+    distribution on the number of candles remaining.
     Instead of solving this full problem at once, try a smaller
     problem first, with the number of candles \( N = 5 \). Then the
     transition probability matrix in canonical form is
@@ -909,7 +829,7 @@ not sufficient to understand how long a junior lawyer will be with the firm.
     \] Then the first-step equations for the waiting time, that is the number of
     attempts needed to blow out the candles are
     \begin{align*}
-        w_1 &= 1
+        w_1 &= 1 \\
         w_2 &= 1 + \frac{1}{2} w_1 \\
         w_3 &= 1 + \frac{1}{3} w_1 + \frac{1}{3} w_2 \\
         w_4 &= 1 + \frac{1}{4} w_1 + \frac{1}{4} w_2 + \frac{1}{4} w_3 \\
@@ -1329,6 +1249,109 @@ V[player_count-5, bills-2] <- sd(all_results)
 \renewcommand{\theexercise}{\arabic{exercise}}
 
 \begin{exercise}
+    A law firm employs three types of lawyers:  junior lawyers, senior
+    lawyers, and partners.  During a given year, there is probability \(
+    0.15 \) of promoting a junior lawyer to senior lawyer and
+    probability \( 0.5 \) that the junior lawyer will leave the firm.
+    There is probability \( 0.20 \) of promoting the senior lawyer to
+    partner and probability \( 0.10 \) that the senior lawyer will leave
+    the firm.  Finally, there is probability \( 0.05 \) that a partner
+    will leave the firm, see
+    Table~\ref{tab:newwaitingtimeabsorption:lawyers}.  
+    The firm never demotes a lawyer or a partner.
+  
+    \begin{table}[htbp]
+        \caption[]{The transition probabilities }
+        \vspace{4mm}
+        \begin{tabular}[tb]
+            {r|cccc} & leave & junior & senior & \\
+            & firm & lawyer & lawyer & partner \\
+            \hline
+            leave firm & 1 & 0 & 0 & 0 \\
+            junior lawyer & 0.05 & 0.80 & 0.15 & 0 \\
+            senior lawyer & 0.10 & 0 & 0.70 & 0.20 \\
+            partner & 0.05 & 0 & 0 & 0.95
+        \end{tabular}
+        \label{tab:newwaitingtimeabsorption:lawyers}
+    \end{table}
+
+    \begin{enumerate}
+    \item   What is the average number of years that a newly hired junior lawyer
+    stays with the firm?
+  \item What are the variance of the number of years a newly hired junior lawyer
+    stays with the firm?
+    for the  
+
+    \end{enumerate}
+  \end{exercise}
+  \begin{solution}
+This leads to the single-step transition matrix \( P \) partitioned into
+one absorbing state for ``leave firm'' and three transient
+states: junior lawyer, senior lawyer, partner
+\[
+    P =
+    \begin{pmatrix}
+        1    & 0    & 0    & 0    \\
+        0.05 & 0.80 & 0.15 & 0    \\
+        0.10 & 0    & 0.70 & 0.20 \\
+        0.05 & 0    & 0    & 0.95
+    \end{pmatrix}.
+\] The transient transition matrix is
+\[
+    T = 
+    \begin{pmatrix}
+         0.80 & 0.15 & 0 \\
+               0 & 0.70 & 0.20 \\
+               0 &    0 & 0.95
+    \end{pmatrix}.
+\] The corresponding fundamental matrix is
+\[
+    N= (I_3 - T)^{-1} =
+    \begin{pmatrix}
+        5 & 5/2 & 10 \\
+        0 & 10/3 & 40/3 \\
+        0 & 0 & 20
+    \end{pmatrix}.
+\] The waiting times to absorption are then
+\[
+    (I-T)^{-1} \mathbf{1} = (35/2, 50/3, 20)^{T}.
+\]
+
+Now compute the covariances for the first transient state, junior
+lawyer.  Using
+\[
+    \operatorname{diag}
+    {N_{(1)}} N + N^T
+    \operatorname{diag}
+    {N_{(1)}} - N_{(1)}^T N_{(1)} -
+    \operatorname{diag}
+    N_{(1)}
+\] we get
+\[
+    \Cov{Y_{1j}}{Y_{1k}} =
+    \begin{pmatrix}
+        20 & 0 & 0 \\
+        0 & 95/12 & 25/3 \\
+        0 & 25/3 & 290
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        20 & 0 & 0 \\
+        0 & 7.91667 & 8.33333 \\
+        0 & 8.33333 & 290
+    \end{pmatrix}.
+\]
+
+Since \( w_i = \sum\limits_{j=a+1}^{t} Y_{ij} \), using that \( \Var{w_i}
+= \sum\limits_{j=a+1}^t \sum\limits_{k=a+1}^t \Cov{Y_{1j}}{Y_{1k}} \),
+the variance is the sum of the entries in the covariance matrix. Hence \(
+\Var{w_1} = 334.58 \) (in units of \( \text{year}^2 \)).  The standard
+deviation is \( 18.29 \) years.  As a point of special interest, note that the
+standard deviation is larger than the mean so that knowing the mean is
+not sufficient to understand how long a junior lawyer will be with the firm.
+\end{solution}
+
+\begin{exercise}
   Use mathematical induction to show
 \[
     P^{m} =
@@ -1378,6 +1401,15 @@ prove that
 \begin{solution}
   
 \end{solution}
+
+\begin{exercise}
+  For the birthday candle problem, prove by induction that the
+  waiting time with \( N \)
+    candles is the \( N \)th \defn{harmonic number} \( H_N \).
+  \end{exercise}
+  \begin{solution}
+    
+  \end{solution}
 \hr
 
 \visual{Books}{../../../../CommonInformation/Lessons/books.png}
