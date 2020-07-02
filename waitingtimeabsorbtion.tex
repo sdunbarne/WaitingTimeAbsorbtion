@@ -504,7 +504,7 @@ from \( N \) by the matrix product \( B = NA = (I-T)^{-1}A \).
 Kemeny and Snell \cite[page 51]{kemeny60} give an alternative expression for the variance of
 the waiting time using first-step analysis.
 
-\begin{theorem}
+\begin{theorem} \label{thm:waitingtimeabsorbtion''varwaittime}
 \[
      \Var{\mathbf{w}} = (2N - I)N\mathbf{1} -
      (N\mathbf{1})_{\text{sq}}
@@ -782,17 +782,17 @@ Thus
     than the symmetric case where \( p =1/2 = q \), as expected.
 
     The probabilities of absorption are
-    \[
+\[\]    \[
         N(2/3) A =
         \begin{pmatrix}
-            7/8 & 1/8\\
-            3/4 & 1/4\\
-            5/8 & 3/8\\
-            1/2 & 1/2\\
-            3/8 & 5/8\\
-            1/4 & 3/4\\
-            1/8 & 7/8
-        \end{pmatrix}.
+          \frac{127}{255} & \frac{128}{255} \\
+          \frac{21}{85}   & \frac{64}{85}   \\
+          \frac{31}{255}  & \frac{224}{255} \\
+          \frac{1}{17}    & \frac{16}{17}   \\
+          \frac{7}{255}   & \frac{248}{255} \\
+          \frac{1}{85}    & \frac{84}{85}   \\
+          \frac{1}{255}   & \frac{254}{255}
+        \end{pmatrix}
     \] The absorption probabilities are strongly biased to the right, as
     expected.
 \end{example}
@@ -872,7 +872,7 @@ Thus
     \[
         (I - T) \mathbf{W} = \mathbf{1}
     \] Substituting in the values from the transition matrix and solving
-    with Octave, this is \( w_{30} = H_{30} \approx 3.9950 \).
+    with a computer, this is \( w_{30} = H_{30} \approx 3.9950 \).
     By calculating the covariance matrix and taking the sum of all
     entries,  the variance of the waiting time from the
     transient state of all candles lit is \( 2.3828 \).
@@ -1349,6 +1349,42 @@ the variance is the sum of the entries in the covariance matrix. Hence \(
 deviation is \( 18.29 \) years.  As a point of special interest, note that the
 standard deviation is larger than the mean so that knowing the mean is
 not sufficient to understand how long a junior lawyer will be with the firm.
+\end{solution}
+
+\begin{exercise}
+  Consider the random walk of a particle along a straight line from $-4$ to
+  $4$ with probability $2/3$ of moving to the right and probability
+  $1/3$ of moving to the left.  The absorbing boundary states are $-4$
+  and $4$. Compute the vector of variances of waiting times until
+  absorbtion using
+  Theorem~\ref{thm:waitingtimeabsorbtion''varwaittime}.  Compare the
+  result for the walk started at $0$ with the variance computed in the
+  text using the sum of the entries in the covariance matrix.
+\end{exercise}
+\begin{solution}
+  Theorem~\ref{thm:waitingtimeabsorbtion''varwaittime} gives the
+  variances of the waiting times as
+  \[
+     \Var{\mathbf{w}} = (2N - I)N\mathbf{1} -
+     (N\mathbf{1})_{\text{sq}}.
+   \]
+   Using the matrix $N$ from the test example, this is
+   \[\begin{pmatrix}\frac{551592}{7225}\\
+\frac{476496}{7225}\\
+\frac{83352}{1445}\\
+\frac{15264}{289}\\
+\frac{330312}{7225}\\
+\frac{247536}{7225}\\
+\frac{5400}{289}\end{pmatrix}\] or approximately
+\[\begin{pmatrix}76.34491349480969\\
+65.95100346020762\\
+57.68304498269896\\
+52.81660899653979\\
+45.71792387543253\\
+34.26103806228374\\
+18.68512110726644\end{pmatrix}\]
+The entry for $0$ is $52.81660$, which agrees with the variance in the
+text example.
 \end{solution}
 
 \begin{exercise}
