@@ -1,0 +1,104 @@
+
+\begin{description}
+
+% \item[Geogebra] 
+
+% \link{  .ggb}{GeoGebra applet}
+
+% \item[R] 
+
+\link{http://www.math.unl.edu/~sdunbar1/waitingtimeabsorbtion.R}{R
+  script for Waiting Time in Left-Center-Right.}
+
+\begin{lstlisting}[language=R]
+player_index <- function(j) {
+    ((j-1) %% player_count) + 1
+}
+
+
+game <- function(bills, player_count){
+
+    turn <- function(player) {
+        rolls <- sample(6, 3, replace=TRUE)
+        for (roll in rolls) {
+            if (players[player] > 0) {      #player has money
+                if (roll <= 2) {            #pass dollar to Left
+                    players[player_index(player - 1)] =
+                        players[player_index(player - 1)] + 1 
+                    players[player] = players[player] - 1
+                } else if (roll <= 4) {     #pass dollar to right
+                    players[player_index(player + 1)] =
+                        players[player_index(player + 1)] + 1
+                    players[player] = players[player] - 1
+                } else {                    #dollar goes to center
+                    players[player] = players[player] - 1
+                }
+            }
+        }
+        return(players)
+    }
+
+    players <- rep(bills, player_count)
+    turns <- 1
+    current_player <- 1
+
+    while ( length( players[ players > 0] ) > 1 ) {
+        players <- turn(current_player)
+        current_player <- player_index(current_player + 1)
+        turns <- turns + 1
+    }
+
+    return(turns)
+}
+
+M <- matrix(0, 4, 4)
+V <- matrix(0, 4, 4)
+simulations <- 5000
+
+for (player_count in c(6:9)) {
+    for (bills in c(3:6)) {
+
+        sim_results <- c()
+        for (i in 1:simulations) {
+            sim_results <- c( sim_results, game(bills, player_count) )
+        }
+
+        M[player_count-5, bills-2] <- mean(sim_results)
+        V[player_count-5, bills-2] <- sd(sim_results)
+    }
+}
+
+\end{lstlisting}  
+
+% \item[Octave]
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .m}{Octave script for .}
+
+% \begin{lstlisting}[language=Octave]
+
+% \end{lstlisting}
+
+% \item[Perl] 
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .pl}{Perl PDL script for .}
+
+% \begin{lstlisting}[language=Perl]
+
+% \end{lstlisting}
+
+% \item[SciPy] 
+
+% \link{http://www.math.unl.edu/~sdunbar1/    .py}{Scientific Python script for .}
+
+% \begin{lstlisting}[language=Python]
+
+% \end{lstlisting}
+
+\end{description}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

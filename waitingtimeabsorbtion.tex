@@ -1,9 +1,3 @@
-%% -*-LaTeX-*-
-%%% newwaitingtimeabsorbtion.tex.orig
-%%% Prettyprinted by texpretty lex version 0.02 [21-May-2001]
-%%% on Tue Jun  6 05:30:35 2017
-%%% for Steve Dunbar (sdunbar@family-desktop)
-
 \documentclass[12pt]{article}
 
 \input{../../../../etc/macros} %\input{../../../../etc/mzlatex_macros}
@@ -269,7 +263,7 @@ consider the entries in the transient corner matrix \( T^m \), so
     \E{Y_{ij}} = \sum\limits_{m=0}^{\infty} (T^m)_{ij} = \left( \sum\limits_
     {m=0}^{\infty} T^m \right)_{ij}.
 \] The basic theory of finite absorbing Markov chains ensures that the
-Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1
+induced $2$-norm (or operator norm) of \( T \) is less than \( 1 \), \( \| T \| < 1
 \). (See the exercises.)
 Therefore \( \sum_{m=0}^{\infty} T^m \) converges.  Furthermore,
 it converges to the \defn{fundamental matrix} \( N = (I-T)^{-1} \).%
@@ -537,7 +531,7 @@ where \( (N\mathbf{1})_{\text{sq}} \) is the element-wise squared vector.
 \end{align*}
 \item 
    Rearrange using \( N = (I_t - T)^{-1} \) and \( NT =
-   (I_t - T)^{-1} T = N - I \) (See the exercises.) 
+   (I_t - T)^{-1} T = N - I_t \) (See the exercises.) 
 \begin{align*}
      \E{\mathbf{w}_{sq}} &= (I_t - T)^{-1} (2 T\E{\mathbf{w}} +
                            \mathbf{1}) \\
@@ -985,7 +979,7 @@ Thus
             3+1 & 0 & 0 & 1/2 & 1/4 & 1/4 \cr
             2+2 & 0 & 0 & 2/3 & 1/3 & 0 \cr
             4 & 0 & 0 & 0 & 0 & 1 \cr
-        }
+        }.
     \]
 
     The absorbing state is \( 4 \).  Rearranging into the canonical
@@ -999,7 +993,7 @@ Thus
             2+1+1 & 0 & 0 & 1/2 & 1/3 & 1/6 \cr
             3+1 & 1/4 & 0 & 0 & 1/2 & 1/4 \cr
             2+2 & 0 & 0 & 0 & 2/3 & 1/3 \cr
-        }
+        }.
     \]
 
     Then \( N = (I-T)^{-1} \) is
@@ -1065,8 +1059,16 @@ Thus
   in the center.  This shortest game would be $6$ turns with
   probability $(1/27)^6$.  Consider the
   total number of dollars in the circle at each turn.  The expected
-  loss of dollars from the circle to the center at each turn is $1$.
-  That means it takes should take on the order of $17$ turns to end
+  loss of dollars from the circle to the center at each turn is
+  \[
+    0 \cdot \left( \frac{2}{3} \right)^3 +
+    1 \cdot \left( 3 \cdot \left( \frac{2}{3} \right)^2 \cdot \left(
+        \frac{1/3}  \right) \right) + 
+    2 \cdot \left( 3 \cdot \left( \frac{2}{3} \right) \cdot \left(
+        \frac{1/3}  \right)^2 \right) + 
+    3 \cdot \left( \frac{1}{3} \right)^3  = 1
+  \]
+    That means it takes should take about $17$ turns to end
   the game.  More precisely, consider the lumped system where each
   state is the number of dollars in the circle, from $\$18$ to $\$1$.
   Let $D_j$ be the duration of the game from $j$ dollars with
@@ -1143,102 +1145,65 @@ Thus
 
 \end{example}
 
-\subsection*{Sources} This section is adapted from Carchidi and
+\subsection*{Sources} The subsection on covariances
+is adapted from Carchidi and
 Higgins~\cite{carchidi17}.  The section on first-step analysis is
-adapted from \booktitle{Finite Markov Chains} by Kemeny and Snell.
+adapted from \booktitle{Finite Markov Chains} by Kemeny and Snell~\cite{kemeny60}.
 Other ideas are from \booktitle{An Introduction to Stochastic
   Modeling} by Taylor and Karlin and \booktitle {Random Walks and
-  Electrical Networks} by Doyle and Snell.  The birthday candle
-example is adapted from the January 13, 2017 ``Riddler'' problem from
-the webpage \texttt{fivethirtyeight.com}.  The two colored balls
+  Electrical Networks} by Doyle and Snell~\cite{doyle84}.  The birthday candle
+example is adapted from the January 13, 2017 ``Riddler'' at
+\link{https://fivethirtyeight.com/features/can-you-time-the-stoplight-just-right/}{Fivethirtyeight.com}/
+The two colored balls
 example is adapted from \booktitle{Finite Markov Chains} by Kemeny and
-Snell. The four colored balls example is adapted from
+Snell~\cite{kemeny60}. The four colored balls example is adapted from
 http://www.laurentlessard.com/bookproofs/colorful-balls-puzzle/
 The Left-Center-Right game example is from the December 22, 2017
   Riddler at
 \link{https://fivethirtyeight.com/features/hark-two-holiday-puzzles/}{Fivethirtyeight.com}.
-
-\nocite{kemeny60} \nocite{charchid17}
-\nocite{taylor98-introd-stoch-model} \nocite{doyle84}
 
 \hr
 
 \visual{Algorithms, Scripts, Simulations}{../../../../CommonInformation/Lessons/computer.png}
 \section*{Algorithms, Scripts, Simulations}
 
-\begin{lstlisting}[language=R]
-  M <- matrix(0, 4, 4)
-V <- matrix(0, 4, 4)
-
-for (player_count in c(6:9)) {
-    for (bills in c(3:6)) {
-## player_count <-  6
-## bills <-  3
-simulations <- 5000
-
-game <- function(){
-
-    players <- rep(bills, player_count)
-    turns <- 1
-    current_player <- 1
-
-    player_index <- function(j) {
-        ((j-1) %% player_count) + 1
-    }
-    
-    turn <- function(player) {
-        rolls <- sample(6, 3, replace=TRUE)
-        for (roll in rolls) {
-            if (players[player] > 0) {
-                if (roll <= 2) {
-                    players[player_index(player - 1)] =
-                        players[player_index(player - 1)] + 1 
-                    players[player] = players[player] - 1
-                } else if (roll <= 4) {
-                    players[player_index(player + 1)] =
-                        players[player_index(player + 1)] + 1
-                    players[player] = players[player] - 1
-                } else {
-                    players[player] = players[player] - 1
-                }
-            }
-        }
-        return(players)
-    }
-    
-    while ( length( players[ players > 0] ) > 1 ) {
-        players <- turn(current_player)
-        current_player <- player_index(current_player + 1)
-        turns <- turns + 1
-    }
-
-    return(turns)
-}
-
-all_results <- c()
-for (i in 1:simulations) {
-    all_results <- c( all_results, game() )
-}
-
-M[player_count-5, bills-2] <- mean(all_results)
-V[player_count-5, bills-2] <- sd(all_results)
-    }
-    }
-  \end{lstlisting}
 \subsection*{Algorithm}
+
+\begin{codebox}
+  \Procname{Waiting Time Simulation for Left-Center-Right}
+  \li Initialize Mean and Variance matrices to hold results
+  \li Initialize number of simulations (5000)
+  \li Loop over number of players for each simulation (6:9)
+  \Li Loop over the number of bills each player starts with (3:6)
+  \li Initialize empty vector to hold waiting time for each simulation
+  \li Record results of waiting times for each simulation
+  \li \Return Mean and Variance of Waiting Times to Game End
+  \Procname{Player Index}
+  \li Modular division to number the players in a circle
+  \Procname{Game}
+  \li Initialize the player circle to hold equal number of bills
+  \li \While more than one player has more that one bill
+  \li Current player takes a Turn
+  \li Move to next player in circle
+  \li $\text{turns} \gets \text{turns} + 1$
+  \li \End
+  \li \Return turns
+  \Procname{Turn}
+  \li Get $3$ random integers from $1$ to $6$ into a vector
+  \li \For three places in the vector
+  \li \If current player has bills
+  \li \If roll (vector entry) is $1$ or $2$
+  \li Player to left gets bill, current player loses a bill, 
+  \li \If roll (vector entry) is $3$ or $4$
+  \li Player to right gets bill, current player loses a bill, 
+  \li \If roll (vector entry) is $5$ or $6$
+  \li Center gets bill (don't keep track), current player loses a bill
+  \Return State of players (bills each holds)
+\end{codebox}
 
 \subsection*{Scripts}
 
-% Commands are                    
-
-% \begin{verbatim*}
-% T = diag( 1 ./ [30:-1:1] ) * ( triu( ones(30,30) ) - eye(30) );
-% wait = inverse( eye(30) - T) * ones(30,1);
-% wait(1)
-% HN = sum( 1 ./ [30:-1:1] )
-% \end{verbatim*}
-
-% \input{ _scripts}
+\input{waitingtimeabsorbtion_scripts}
 
 \hr
 
@@ -1409,33 +1374,127 @@ text example.
 \end{exercise}
 
 \begin{solution}
-  
+  The equality is trivial for the base case $m=1$.  Assume the
+  equality holds for $m-1$.  Check  the multiplication for the
+  lower left block, the other three blocks are easily seen to hold.
+  The multiplication for the lower left block is
+  \[
+    \left( (I_t + T + T^2 + \cdots + T^{m-2})A  \right) I_a +
+    T^{m-1}A = (I_t + T + T^2 + \cdots + T^{m-1})A
+  \]
+  completing the induction step.
+\end{solution}
+
+\begin{exercise}[label=(\alph*)]
+  \begin{enumerate}
+  \item Use computer software to show that the transient state transition
+    probability matrix $T$ in the random walk example has induced $2$-norm (or operator norm)
+    less than one for $p = 1/2$ and $p = 2/3$.
+  \item Use computer software to show that the transient state transition
+    probability matrix $T$ in the birthday candle example with $N=5$,
+    has induced $2$-norm (or operator norm)
+    less than $1$.
+  \item Use computer software to show that the transient state transition
+    probability matrix $T$ in the two unpainted balls example 
+    has induced $2$-norm (or operator norm)
+    less than $1$.
+  \item (Mathematicians only) Show that if $T$ is irreducible and row substochastic,
+    with at least one row having sum less than $1$, then the
+induced $2$-norm (or operator norm) of \( T \) is less than \( 1 \),
+\( \| T \| < 1 \).
+\item  Use computer software to show that the transient state transition
+    probability matrix $T$ in the four painted balls example 
+    has induced $2$-norm (or operator norm)
+    \emph{greater} than $1$.  Explain why the previous theorem is not
+    violated.  Nevertheless, show that the eigenvalues of the matrix
+    are all less than $1$, so that $T$ is contractive and $(I-T)^{-1}$
+    still exists.
+  \end{enumerate}
+\end{exercise}
+\begin{solution}
+  \begin{enumerate}[label=(\alph*)}
+  \item With R, for $p=1/2$, \texttt{norm(T, type=c("2")) = 0.9238795}.
+   With R, for $p=2/3$, \texttt{norm(T, type=c("2")) = 0.9326442}.
+ \item    With R, \texttt{norm(T, type=c("2")) = 0.7941471}.
+ \item    With R, \texttt{norm(T, type=c("2")) = 0.8660254}.
+ \item Proof lightly adapted from
+\link{StackExchange -- Substochastic matrix spectral radius}{https://math.stackexchange.com/questions/36828/substochastic-matrix-spectral-radius#666603}
+   For any state $i$ and integer $n \ge 0$, let
+   $r_i^n = \sum_{k}T_{ik}^n$ denote the $i$th row sum of $T^n$. For
+   $n=1$, for convenience write $r_i$ rather than $r_i^1$. Since $T$
+   is substochastic transition probability matrix,
+   $0 \le r_i^n \le 1$.
+
+   Let $k^{∗}$ be an index with $r_{k^{∗}} < 1$, and note that for $n
+   \ge 1$
+   \[
+     r_{k^{∗}}^n = \sum_{k} T_{k^{∗}k} r_k^{n−1} \le \sum_{k} T_{k^{∗}k}
+     = r_{k^{∗}} < 1.
+     \]
+   
+   By irreducibility, for any $i$, there is an $m$
+   with $T_{ik^{*}}^m>0$. In fact, if $T$ is an $N \times N$ matrix,
+   and $i \ne k^{∗}$ then
+   take  $m<N$. (Take the shortest path from $i$ to $k^{∗}$ with positive
+   transition probability).  Since $T_{ik}^m$ puts positive weight on
+   the index $k=k^{∗}$,
+   \[
+     r_i^N = \sum_{k} T_{ik}^{m} r_k^{N−m} < r_i^m  \le 1.
+   s \]
+   
+
+   That is, every row sum of $T^N$ is strictly less than $1$. Now it
+   is possible to
+   show that $T^{jN} \to 0$ as $j  \to \infty$ and this shows that $T^N$ (and hence $T$) cannot
+   have any eigenvalue with modulus $1$.
+ \item   With R, \texttt{norm(T, type=c("2")) = 1.162299 } but the
+   eigenvalues are $0.83333$, $0.50000$, $0$ and $0$.  The previous
+   theorem is not violated because the transient probability
+   transition matrix is not irreducible, it it not possible to reach
+   state $1+1+1+1$.
+  \end{enumerate}
 \end{solution}
 
 \begin{exercise}
-Show
-that the
-Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \).
-\end{exercise}
-\begin{solution}
-  
-\end{solution}
-\begin{exercise}
    Show that \( NT =
-   (I_t - T)^{-1} T = N - I \)
+   (I_t - T)^{-1} T = N - I_t \)
  \end{exercise}
  \begin{solution}
-   
+   Start with $N = (I_t-T)^{-1}$.  Then
+   \begin{align*}
+     I_t &= N(I_t-T) \\
+     0 &= N - NT - I_t \\
+     T &= N - TN - I_t + T \\
+     T &= (I_t - T) N - (I_t - T) \\
+     T &= (I_t-T)(N - I_t) \\
+     (I_t - T)^{-1} T = N - I_t \)
+   \end{align*}
  \end{solution}
-\begin{exercise}
+
+ \begin{exercise}
   Under the assumption that the
-Euclidean norm of \( T \) is less than \( 1 \), \( \| T \| < 1 \)
+induced $2$-norm (or operator norm) of \( T \) is less than \( 1 \), \( \| T \| < 1 \)
 prove that
 \[
-  \sum\limits_{x=0}^{\infty} (T^x){}_{ij} = (I - T)^{-1}.
+  \sum_{\nu=0}^{\infty} (T^\nu) = (I - T)^{-1}.
+\]
+
 \end{exercise}
 \begin{solution}
-  
+  Consider
+  \begin{multline*}
+    (I-T)(I + T + T^2 + \dots + T^m) = (I + T + T^2 + \dots + T^m) -
+    \\
+    (T + T^2 + \dots + T^{m+1}} = I - T^{m+1}
+  \end{multline*}
+  Then
+  \[
+    \| (I-T) \sum_{\nu=0}^{m} (T^\nu) - I \| = \| T^{m+1} \| \to 0
+  \]
+  so 
+\[
+  \sum_{\nu=0}^{\infty} (T^\nu) = (I - T)^{-1}.
+\]
 \end{solution}
 
 \begin{exercise}
@@ -1444,7 +1503,32 @@ prove that
     candles is the \( N \)th \defn{harmonic number} \( H_N \).
   \end{exercise}
   \begin{solution}
-    
+    With $1$ candle, and the assumption you blow out a random number of
+    candles between one and the number that remain, $w_1$ must be $1 =
+    H_1$ and the base case is established.  Next assume
+        \[
+        w_N = H_N = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} 
+              + \frac{1}{5} + \cdots + \frac{1}{N} =
+              \sum\limits_{\nu=1}^{N} \frac{1}{\nu}. 
+    \]
+    and
+    \begin{align*}
+      w_{N+1} &= 1 + \frac{1}{N+1} w_1 + \frac{1}{N+1} w_2 + \dots
+                + \frac{1}{N+1} w_N \\
+              &= 1 + \frac{1}{N+1} \sum\limits_{\nu=1}^{N+1} w_{\nu} \\
+      &= 1 + \frac{1}{N+1} \sum\limits_{\nu=1}^{N+1}
+        \sum\limits_{j=1}^\nu  \frac{1}{j} \\
+              &= 1 + \sum\limits_{j=1}^{N-1} \frac{N-j}{N \cdot j} \\
+    \end{align*}
+    Exchange the order of summation:
+    \begin{align*}
+      w_{N+1} 
+      &= 1 + \frac{1}{N} \sum\limits_{j=1}^{N-1} \left(
+        \frac{N}{j} - 1 \right) \\
+      &= 1 + \frac{1}{N} \sum\limits_{j=1}^{N-1} - \frac{1}{N} (N-1)
+      \\
+      &= 1 + \sum\limits_{j=1}^{N-1} \frac{1}{j} + \frac{1}{N}.
+    \end{align*}
   \end{solution}
 \hr
 
