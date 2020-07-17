@@ -5,7 +5,7 @@
 
 % \link{  .ggb}{GeoGebra applet}
 
-% \item[R] 
+ \item[R] 
 
 \link{http://www.math.unl.edu/~sdunbar1/waitingtimeabsorbtion.R}{R
   script for Waiting Time in Left-Center-Right.}
@@ -70,13 +70,16 @@ for (player_count in c(6:9)) {
 
 \end{lstlisting}  
 
-% \item[Octave]
+\item[Octave]
 
 % \link{http://www.math.unl.edu/~sdunbar1/    .m}{Octave script for .}
 
-% \begin{lstlisting}[language=Octave]
-
-% \end{lstlisting}
+\begin{lstlisting}[language=Octave]
+    V = [(8/27)*ones(17,1), (12/27)*ones(17,1), (6/27)*ones(17,1),
+         (1/27)*ones(17,1)]
+    A = spdiags(V, [0,1,2,3], eye(17))
+    (eye(17) - A)\ones(17,1)
+\end{lstlisting}
 
 % \item[Perl] 
 
