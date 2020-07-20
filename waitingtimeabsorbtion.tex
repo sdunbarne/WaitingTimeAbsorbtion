@@ -309,47 +309,47 @@ Recall that
 \] and since \( \E{Y_{ij}} \) and \( \E{Y_{ik}} \) are known, all that
 is necessary is \( \E{Y_{ij} \cdot Y_{ik}} \).  Start with
 \[
-    Y_{ij} Y_{ik} = \left( \sum\limits_{x=0}^{\infty} U_{ij}^{(x)}
-    \right) \left( \sum\limits_{y=0}^{\infty} U_{ik}^{(y)} \right) =
-    \sum\limits_{x=0}^{\infty} \sum\limits_{y=0}^{\infty} U_{ij}^{(x)} U_
-    {ik}^{(y)}
+    Y_{ij} Y_{ik} = \left( \sum\limits_{\nu=0}^{\infty} U_{ij}^{(\nu)}
+    \right) \left( \sum\limits_{\mu=0}^{\infty} U_{ik}^{(\mu)} \right) =
+    \sum\limits_{\nu=0}^{\infty} \sum\limits_{\mu=0}^{\infty} U_{ij}^{(\nu)} U_
+    {ik}^{(\mu)}
 \] so that
 \[
-    \E{Y_{ij} Y_{ik}} = \E{\sum\limits_{x=0}^{\infty} \sum\limits_{y=0}^
-    {\infty} U_{ij}^{(x)} U_{ik}^{(y)}} = \sum\limits_{x=0}^{\infty}
-    \sum\limits_{y=0}^{\infty} \E{U_{ij}^{(x)} U_{ik}^{(y)}}.
+    \E{Y_{ij} Y_{ik}} = \E{\sum\limits_{\nu=0}^{\infty} \sum\limits_{\mu=0}^
+    {\infty} U_{ij}^{(\nu)} U_{ik}^{(\mu)}} = \sum\limits_{\nu=0}^{\infty}
+    \sum\limits_{\mu=0}^{\infty} \E{U_{ij}^{(\nu)} U_{ik}^{(\mu)}}.
 \] Rearrange the double sum into a first term summing over the lattice
-points above the line \( y=x \), a second term summing over the lattice
-points along the line \( y=x \), and a third term summing over lattice
-points below the line \( y=x \),
+points above the line \( \mu=\nu \), a second term summing over the lattice
+points along the line \( \mu=\nu \), and a third term summing over lattice
+points below the line \( \mu=\nu \),
 \[
-    \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty} \E{U_{ij}^{(x)}
-    U_{ik}^{(y)}} + \sum\limits_{x=0}^{\infty} \E{U_{ij}^{(x)} U_{ik}^{(x)}}
-    + \sum\limits_{y=0}^{\infty} \sum\limits_{x=y+1}^{\infty} \E{U_{ik}^
-    {(y)} U_{ij}^{(x)}}.
+    \sum\limits_{\nu=0}^{\infty} \sum\limits_{\mu=\nu+1}^{\infty} \E{U_{ij}^{(\nu)}
+    U_{ik}^{(\mu)}} + \sum\limits_{\nu=0}^{\infty} \E{U_{ij}^{(\nu)} U_{ik}^{(\nu)}}
+    + \sum\limits_{\mu=0}^{\infty} \sum\limits_{\nu=\mu+1}^{\infty} \E{U_{ik}^
+    {(\mu)} U_{ij}^{(\nu)}}.
 \] The first and third terms are symmetric, so only evaluate the first
 term.
 
-The expression \( \E{U_{ij}^{(x)} U_{ij}^{(y)}} \) is the probability
-that the system is in transient state \( j \) after exactly \( x \)
+The expression \( \E{U_{ij}^{(\nu)} U_{ij}^{(\mu)}} \) is the probability
+that the system is in transient state \( j \) after exactly \( \nu \)
 steps from the start in state \( i \) \emph{and} the system is in
-transient state \( k \) after exactly \( y \) steps from the start in
-state \( i \).  Recall that \( x < y \). Using the Markov chain
-property, this is \( \E{U_{ij}^{(x)} U_{ik}^{(y)}} = p_{ij}^{(x)} p_{jk}^
-{(y-x)} \).  Therefore, the first term is
+transient state \( k \) after exactly \( \mu \) steps from the start in
+state \( i \).  Recall that \( \nu < \mu \). Using the Markov chain
+property, this is \( \E{U_{ij}^{(\nu)} U_{ik}^{(\mu)}} = p_{ij}^{(\nu)} p_{jk}^
+{(\mu-\nu)} \).  Therefore, the first term is
 \begin{multline*}
-    \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty} \E{U_{ij}^{(x)}
-    U_{ik}^{(y)}} = \sum\limits_{x=0}^{\infty} \sum\limits_{y=x+1}^{\infty}
-    p_{ij}^{(x)} p_{jk}^{(y-x)} = \sum\limits_{x=0}^{\infty} \sum\limits_
-    {y-x=1}^{\infty} p_{ij}^{(x)} p_{jk}^{(y-x)} \\
-    = \sum\limits_{x=0}^{\infty} \sum\limits_{z=1}^{\infty}
-    p_{ij}^{(x)} p_{jk}^{(z)} = \left( \sum\limits_{x=0}^{\infty} p_{ij}^
-    {(x)} \right) \left( \sum\limits_{z=1}^{\infty} p_{jk}^{(z)} \right)
-    = \left( \sum\limits_{x=0}^{\infty} p_{ij}^{(x)} \right) \left( \sum\limits_
+    \sum\limits_{\nu=0}^{\infty} \sum\limits_{\mu=\nu+1}^{\infty} \E{U_{ij}^{(\nu)}
+    U_{ik}^{(\mu)}} = \sum\limits_{\nu=0}^{\infty} \sum\limits_{\mu=\nu+1}^{\infty}
+    p_{ij}^{(\nu)} p_{jk}^{(\mu-\nu)} = \sum\limits_{\nu=0}^{\infty} \sum\limits_
+    {\mu-\nu=1}^{\infty} p_{ij}^{(\nu)} p_{jk}^{(\mu-\nu)} \\
+    = \sum\limits_{\nu=0}^{\infty} \sum\limits_{z=1}^{\infty}
+    p_{ij}^{(\nu)} p_{jk}^{(z)} = \left( \sum\limits_{\nu=0}^{\infty} p_{ij}^
+    {(\nu)} \right) \left( \sum\limits_{z=1}^{\infty} p_{jk}^{(z)} \right)
+    = \left( \sum\limits_{\nu=0}^{\infty} p_{ij}^{(\nu)} \right) \left( \sum\limits_
     {z=0}^{\infty} p_{jk}^{(z)} - p_{jk}^{(0)}\right) \\
-    = \left( \sum\limits_{x=0}^{\infty} (T^x){}_{ij} \right) \left( \sum\limits_
+    = \left( \sum\limits_{\nu=0}^{\infty} (T^\nu){}_{ij} \right) \left( \sum\limits_
     {z=0}^{\infty} (T^z){}_{jk} - \delta_{jk}\right) = \left( \sum\limits_
-    {x=0}^{\infty} T^x \right)_{ij} \left( \sum\limits_{z=0}^{\infty} T^z\right)_
+    {\nu=0}^{\infty} T^\nu \right)_{ij} \left( \sum\limits_{z=0}^{\infty} T^z\right)_
     {jk} - \delta_{jk} \\
     = \left( (I_t-T)^{-1} \right)_{ij} \left( (I_t-T)^{-1} \right){}_{jk}
     - \delta_{jk} \\
@@ -358,20 +358,20 @@ property, this is \( \E{U_{ij}^{(x)} U_{ik}^{(y)}} = p_{ij}^{(x)} p_{jk}^
 The third term is the first term with \( j \) and \( k \) interchanged,
 so
 \[
-    \sum\limits_{y=0}^{\infty} \sum\limits_{x=y+1}^{\infty} \E{U_{ik}^{(y)}
-    U_{ij}^{(x)}} = N_{ik}(N_{kj}-\delta_{kj}).
-\] Finally, the second term is \( \sum\limits_{x=0}^{\infty} \E{U_{ij}^{%
-(x)} U_{ik}^{(x)}} \) where each summand is the probability that the
-Markov chain is in transient state \( j \) after exactly \( x \) steps
+    \sum\limits_{\mu=0}^{\infty} \sum\limits_{\nu=\mu+1}^{\infty} \E{U_{ik}^{(\mu)}
+    U_{ij}^{(\nu)}} = N_{ik}(N_{kj}-\delta_{kj}).
+\] Finally, the second term is \( \sum\limits_{\nu=0}^{\infty} \E{U_{ij}^{%
+(\nu)} U_{ik}^{(\nu)}} \) where each summand is the probability that the
+Markov chain is in transient state \( j \) after exactly \( \nu \) steps
 after starting in transient state \( i \) and simultaneously in state \(
-k \) after exactly \( x \) steps starting from transient state \( i \).
-This is only possible if \( j=k \) hence \( \E{U_{ij}^{(x)} U_{ik}^{(x)}}
-= p_{ij}^{(x)} \delta_{jk} \).  Thus for the second term
+k \) after exactly \( \nu \) steps starting from transient state \( i \).
+This is only possible if \( j=k \) hence \( \E{U_{ij}^{(\nu)} U_{ik}^{(\nu)}}
+= p_{ij}^{(\nu)} \delta_{jk} \).  Thus for the second term
 \[
-    \sum\limits_{x=0}^{\infty} \E{U_{ij}^{(x)} U_{ik}^{(x)}} = \sum\limits_
-    {x=0}^ {\infty} p_{ij}^{(x)} \delta_{jk} = \left( \sum\limits_{x=0}^
-    {\infty} (T^ {x}){}_{ij} \right) \delta_{jk} = \left( \sum\limits_{x=0}^
-    {\infty} T^{x} \right)_{ij} \delta_{jk} = N_{ij} \delta_{jk}.
+    \sum\limits_{\nu=0}^{\infty} \E{U_{ij}^{(\nu)} U_{ik}^{(\nu)}} = \sum\limits_
+    {\nu=0}^ {\infty} p_{ij}^{(\nu)} \delta_{jk} = \left( \sum\limits_{\nu=0}^
+    {\infty} (T^ {\nu}){}_{ij} \right) \delta_{jk} = \left( \sum\limits_{\nu=0}^
+    {\infty} T^{\nu} \right)_{ij} \delta_{jk} = N_{ij} \delta_{jk}.
 \] Putting all terms together
 \[
     \E{Y_{ij} Y_{ik}} = N_{ij}(N_{jk}-\delta_{jk}) + N_{ij} \delta_{jk}
