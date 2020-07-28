@@ -6,8 +6,9 @@
 
 \documentclass[12pt]{article}
 
-\input{../../../../etc/macros} %\input{../../../../etc/mzlatex_macros}
-\input{../../../../etc/pdf_macros}
+\input{../../../../etc/macros}
+\input{../../../../etc/mzlatex_macros}
+%% \input{../../../../etc/pdf_macros}
 
 \bibliographystyle{plain}
 
@@ -1105,8 +1106,8 @@ of the waiting time using first-step analysis.
             5      & 38.3244 & 47.4416 & 56.3536 & 65.4438 \\ 
             6      & 44.8394 & 54.9732 & 65.5688 & 75.3548
         \end{tabular}
-        \caption{Mean number of turns in \( 5000 \) simulations of the
-        game with \( X \) players (columns) each with \( Y \) dollars (rows).}
+        \caption{Mean number of turns in $ 5000 $ simulations of the
+        game with $ X $ players (columns) each with $ Y $ dollars (rows).}
         \label{tab:waitingtimeabsorbtion:lcrmean}
     \end{table}
 
@@ -1120,8 +1121,8 @@ of the waiting time using first-step analysis.
             5      & 8.989401  & 9.367077  & 9.878952  & 10.387840 \\ 
             6      & 10.161804 & 10.468601 & 11.080443 & 11.654668
         \end{tabular}
-        \caption{Variance of number of turns in \( 5000 \) simulations
-        of the game with \( X \) players each with \( Y \) dollars.}%
+        \caption{Variance of number of turns in $ 5000 $ simulations
+        of the game with $ X $ players each with $ Y $ dollars.}%
         \label{tab:waitingtimeabsorbtion:lcrmean}
     \end{table}
 
@@ -1172,7 +1173,7 @@ Left-Center-Right game example is from the December 22, 2017 Riddler at
     players in a circle \Procname{Game} \li Initialize the player circle
     to hold equal number of bills \li \While more than one player has
     more that one bill \li Current player takes a Turn \li Move to next
-    player in circle \li \( \text{turns} \gets \text{turns} + 1 \) \li
+    player in circle \li Increment turns by \( 1 \) \li
     \End \li \Return turns \Procname{Turn} \li Get \( 3 \) random
     integers from \( 1 \) to \( 6 \) into a vector \li \For three places
     in the vector \li \If current player has bills \li \If roll (vector
